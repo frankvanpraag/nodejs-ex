@@ -1,13 +1,13 @@
 //  OpenShift sample Node application
-const fs           = require('fs');
-const path         = require('path');
-//const storage      = require('node-persist');
-const contentTypes = require('./utils/content-types');
-const sysInfo      = require('./utils/sys-info');
-var   env          = process.env;
-var   http         = require('http');
-var   request      = require('request');
-var   util         = require('util');
+// const fs           = require('fs');
+// const path         = require('path');
+// //const storage      = require('node-persist');
+// const contentTypes = require('./utils/content-types');
+// const sysInfo      = require('./utils/sys-info');
+// var   env          = process.env;
+// var   http         = require('http');
+// var   request      = require('request');
+// var   util         = require('util');
 
 var express = require('express'),
     app     = express(),
@@ -85,7 +85,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/fvp', function (req, res) {
-  res.send('Hello Frank.');
+  res.send('Greetings Frank.');
 });
 
 
