@@ -85,7 +85,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/fvp', function (req, res) {
-  res.send('good night Frank...');
+  res.send('Good Morning Frank.');
 });
 
 app.get('/set', function (req, res) {
@@ -146,8 +146,10 @@ app.get('/get', function (req, res) {
   var responseID = req.query.responseID;
   var name  = req.query.name;                   // Name (of name-value-pair)
   var value = req.query.value;                  // Value (of name-value-pair)
-  if (value !== undefined)
+  if (value !== undefined) {
       res.send({ result: 'failed', rc: 12 , info: 'unexpected value passed. Not allowed.'});
+      return;
+  }
   var filter = {
                 surveyID: surveyID,
                 panelID: panelID,
@@ -167,7 +169,7 @@ app.get('/get', function (req, res) {
         // Create a document with request IP and current time of request
         col.findOne( filter , function(err, doc) {
             if (!doc)
-                res.send({ result: 'success', rc: 0 });
+                res.send({ result: 'success', rc: 0, info: 'not found' });
             else {
                 console.log('Raw Doc: %j', doc);
                 console.log('Value %s', doc.value);
@@ -194,8 +196,10 @@ app.get('/getJSON', function (req, res) {
   var responseID = req.query.responseID;
   var name  = req.query.name;                   // Name (of name-value-pair)
   var value = req.query.value;                  // Value (of name-value-pair)
-  if (value !== undefined)
+  if (value !== undefined) {
       res.send({ result: 'failed', rc: 12 , info: 'unexpected value passed. Not allowed.'});
+      return;
+  }
   var filter = {
                 surveyID: surveyID,
                 panelID: panelID,
