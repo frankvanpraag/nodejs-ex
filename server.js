@@ -95,10 +95,10 @@ app.get('/set', function (req, res) {
   var SurveyID = req.query.SurveyID;
   var PanelID = req.query.PanelID;
   var RecipientID = req.query.RecipientID;
-  var SPR = SurveyID+PanelID+RecipientID;
+  var SPR = ""+SurveyID+PanelID+RecipientID;
   var name  = req.query.name;                   // Name (of name-value-pair)
   var value = req.query.value;                  // Value (of name-value-pair)
-  console.log(SPR, ': ', name,' = ',value);
+  console.log('SPR : %s, name = %s, value = %s', SPR, name, value);
 
   // try to initialize the db on every request if it's not already
   // initialized.
@@ -114,9 +114,9 @@ app.get('/set', function (req, res) {
         "value" : value,
         "date" : Date.now()
     } );
-    res.send('{ "result" : "success", "rc" : 0 }');
+    res.send({ "result" : "success", "rc" : 0 });
   } else {
-    res.send('{ "result" : "failed", "rc" : 4 }');
+    res.send({ "result" : "failed", "rc" : 4 });
   }
 });
 
@@ -126,9 +126,9 @@ app.get('/get', function (req, res) {
   var SurveyID = req.query.SurveyID;
   var PanelID = req.query.PanelID;
   var RecipientID = req.query.RecipientID;
-  var SPR = SurveyID+PanelID+RecipientID;
+  var SPR = ""+SurveyID+PanelID+RecipientID;
   var name  = req.query.name;                   // Name (of name-value-pair)
-  console.log(SPR, ': ', name);
+  console.log('SPR : %s, name = %s', SPR, name);
 
   // try to initialize the db on every request if it's not already
   // initialized.
@@ -139,22 +139,22 @@ app.get('/get', function (req, res) {
     var col = db.collection('nvpairs');
     // Create a document with request IP and current time of request
     var value = col.findOne( { "SPR" : SPR, "name" : name } ).value;
-    res.send('{ "value" : value, "result" : "success", "rc" : 0 }');
+    res.send({ "value" : value, "result" : "success", "rc" : 0 });
   } else {
-    res.send('{ "result" : "failed", "rc" : 4 }');
+    res.send({ "result" : "failed", "rc" : 4 });
   }
 });
 
 
 app.get('/getJSON', function (req, res) {
-  console.log('Get request is processing...');
+  console.log('Get JSON request is processing...');
   // extract parameters
   var SurveyID = req.query.SurveyID;
   var PanelID = req.query.PanelID;
   var RecipientID = req.query.RecipientID;
-  var SPR = SurveyID+PanelID+RecipientID;
+  var SPR = ""+SurveyID+PanelID+RecipientID;
   var name  = req.query.name;                   // Name (of name-value-pair)
-  console.log(SPR, ': ', name);
+  console.log('SPR : %s, name = %s', SPR, name);
 
   // try to initialize the db on every request if it's not already
   // initialized.
@@ -167,7 +167,7 @@ app.get('/getJSON', function (req, res) {
     var value = col.findOne( { "SPR" : SPR, "name" : name } ).value;
     res.send(value);
   } else {
-    res.send('{ }');
+    res.send({ });
   }
 });
     
