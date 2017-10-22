@@ -1,5 +1,9 @@
 //  OpenShift sample Node application
 var express = require('express'),
+    fs      = require('fs'),
+    path    = require('path'),
+    storage = require('storage'),
+    node-persist = require('node-persist'),
     app     = express(),
     morgan  = require('morgan');
     
