@@ -1,9 +1,15 @@
 //  OpenShift sample Node application
+const fs           = require('fs');
+const path         = require('path');
+const storage      = require('node-persist');
+const contentTypes = require('./utils/content-types');
+const sysInfo      = require('./utils/sys-info');
+var   env          = process.env;
+var   http         = require('http');
+var   request      = require('request');
+var   util         = require('util');
+
 var express = require('express'),
-    fs      = require('fs'),
-    path    = require('path'),
-    storage = require('storage'),
-    nodepersist = require('node-persist'),
     app     = express(),
     morgan  = require('morgan');
     
