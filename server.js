@@ -85,7 +85,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/fvp', function (req, res) {
-  res.send('Good evening dear Frank.');
+  res.send('Good evening to you, Frank.');
 });
 
 
@@ -110,14 +110,23 @@ app.get('/set', function (req, res) {
   }
   if (db) {
     var col = db.collection('nvpairs');
-    // Create a document with request IP and current time of request
-    col.insertOne( {
-        SPR: SPR,
-        name: name,
-        value: value,
-        date: Date.now()
-    } );
-    res.send({ result: 'success', rc: 0 });
+    var valueJSON = {
+            SPR: SPR,
+            name: name,
+            value: value,
+            date: Date.now()
+        };
+    console.log('valueJSON = %s', valueJSON);
+      
+    try {
+        // Create a document with request IP and current time of request
+        col.insertOne( valueJSON );
+        res.send({ result: 'success', rc: 0 });
+    } catch (e) {
+        res.send({ result: e, rc: 8 });
+        console.log('e = %s', e);
+    };
+
   } else {
     res.send({ result: 'failed', rc: 4 });
   }
