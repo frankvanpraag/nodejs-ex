@@ -84,6 +84,10 @@ app.get('/', function (req, res) {
   }
 });
 
+app.get('/fvp', function (req, res) {
+  res.send('Hello Frank.');
+});
+
 app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
@@ -110,6 +114,6 @@ initDb(function(err){
 });
 
 app.listen(port, ip);
-console.log('Server running on http://%s:%s', ip, port);
+console.log('FvP Server is hurling along on http://%s:%s', ip, port);
 
 module.exports = app ;
