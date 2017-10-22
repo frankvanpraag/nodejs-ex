@@ -85,7 +85,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/fvp', function (req, res) {
-  res.send('Good Morning Frank.');
+  res.send('Good morning to Frank.');
 });
 
 app.get('/set', function (req, res) {
@@ -174,7 +174,7 @@ app.get('/getJSON', function (req, res) {
                 //console.log('Raw Doc: %j', doc);
                 //console.log('Value %s', doc.value);
                 //console.log('JSONValue %j', doc.value);
-                res.send({ value: doc.value, result: 'success', rc: 0 });
+                res.send({ value: doc, result: 'success', rc: 0 });
             }
         } );
     } catch (e) {
