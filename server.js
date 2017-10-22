@@ -88,6 +88,89 @@ app.get('/fvp', function (req, res) {
   res.send('Hello Frank.');
 });
 
+
+app.get('/set', function (req, res) {
+  console.log('Set request is processing...');
+  // extract parameters
+  var SurveyID = req.query.SurveyID;
+  var PanelID = req.query.PanelID;
+  var RecipientID = req.query.RecipientID;
+  var SPR = SurveyID+PanelID+RecipientID;
+  var name  = req.query.name;                   // Name (of name-value-pair)
+  var value = req.query.value;                  // Value (of name-value-pair)
+  console.log(SPR, ': ', name,' = ',value);
+
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    var col = db.collection('nvpairs');
+    // Create a document with request IP and current time of request
+    col.insertOne( {
+        "SPR" : SPR,
+        "name" : name,
+        "value" : value,
+        "date" : Date.now()
+    } );
+    res.send('{ "result" : "success", "rc" : 0 }');
+  } else {
+    res.send('{ "result" : "failed", "rc" : 4 }');
+  }
+});
+
+app.get('/get', function (req, res) {
+  console.log('Get request is processing...');
+  // extract parameters
+  var SurveyID = req.query.SurveyID;
+  var PanelID = req.query.PanelID;
+  var RecipientID = req.query.RecipientID;
+  var SPR = SurveyID+PanelID+RecipientID;
+  var name  = req.query.name;                   // Name (of name-value-pair)
+  console.log(SPR, ': ', name);
+
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    var col = db.collection('nvpairs');
+    // Create a document with request IP and current time of request
+    var value = col.findOne( { "SPR" : SPR, "name" : name } ).value;
+    res.send('{ "value" : value, "result" : "success", "rc" : 0 }');
+  } else {
+    res.send('{ "result" : "failed", "rc" : 4 }');
+  }
+});
+
+
+app.get('/getJSON', function (req, res) {
+  console.log('Get request is processing...');
+  // extract parameters
+  var SurveyID = req.query.SurveyID;
+  var PanelID = req.query.PanelID;
+  var RecipientID = req.query.RecipientID;
+  var SPR = SurveyID+PanelID+RecipientID;
+  var name  = req.query.name;                   // Name (of name-value-pair)
+  console.log(SPR, ': ', name);
+
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    var col = db.collection('nvpairs');
+    // Create a document with request IP and current time of request
+    var value = col.findOne( { "SPR" : SPR, "name" : name } ).value;
+    res.send(value);
+  } else {
+    res.send('{ }');
+  }
+});
+    
 app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
