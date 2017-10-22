@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/openshift/nodejs-ex.git"
+    "url": "http://github.com/frankvanpraag/nodejs-ex.git"
   },
   "author": "Steve Speicher <sspeiche@gmail.com>",
   "license": "CC-BY-1.0",
