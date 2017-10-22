@@ -85,7 +85,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/fvp', function (req, res) {
-  res.send('Good evening Frank.');
+  res.send('Good evening dear Frank.');
 });
 
 
@@ -93,9 +93,12 @@ app.get('/set', function (req, res) {
   console.log('Set request is processing...');
   // extract parameters
   var SurveyID = req.query.SurveyID;
+  if (SurveyID === undefined) SurveyID = '';
   var PanelID = req.query.PanelID;
+  if (PanelID === undefined) PanelID = '';
   var RecipientID = req.query.RecipientID;
-  var SPR = ""+SurveyID+PanelID+RecipientID;
+  if (RecipientID === undefined) RecipientID = '';
+  var SPR = SurveyID+PanelID+RecipientID;
   var name  = req.query.name;                   // Name (of name-value-pair)
   var value = req.query.value;                  // Value (of name-value-pair)
   console.log('SPR : %s, name = %s, value = %s', SPR, name, value);
@@ -109,14 +112,14 @@ app.get('/set', function (req, res) {
     var col = db.collection('nvpairs');
     // Create a document with request IP and current time of request
     col.insertOne( {
-        "SPR" : SPR,
-        "name" : name,
-        "value" : value,
-        "date" : Date.now()
+        SPR: SPR,
+        name: name,
+        value: value,
+        date: Date.now()
     } );
-    res.send({ "result" : "success", "rc" : 0 });
+    res.send({ result: 'success', rc: 0 });
   } else {
-    res.send({ "result" : "failed", "rc" : 4 });
+    res.send({ result: 'failed', rc: 4 });
   }
 });
 
@@ -124,9 +127,12 @@ app.get('/get', function (req, res) {
   console.log('Get request is processing...');
   // extract parameters
   var SurveyID = req.query.SurveyID;
+  if (SurveyID === undefined) SurveyID = '';
   var PanelID = req.query.PanelID;
+  if (PanelID === undefined) PanelID = '';
   var RecipientID = req.query.RecipientID;
-  var SPR = ""+SurveyID+PanelID+RecipientID;
+  if (RecipientID === undefined) RecipientID = '';
+  var SPR = SurveyID+PanelID+RecipientID;
   var name  = req.query.name;                   // Name (of name-value-pair)
   console.log('SPR : %s, name = %s', SPR, name);
 
@@ -138,10 +144,13 @@ app.get('/get', function (req, res) {
   if (db) {
     var col = db.collection('nvpairs');
     // Create a document with request IP and current time of request
-    var value = col.findOne( { SPR:SPR, name:name } ).value;
-    res.send({ value:value, result:'success', rc:0 });
+    var valueXXX = col.findOne( { SPR: SPR, name: name } );
+    console.log('DB found: %s', valueXXX);
+    var value = col.findOne( { SPR: SPR, name: name } ).value;
+    console.log('DB value found: %s', value);
+    res.send({ value: value, result: 'success', rc: 0 });
   } else {
-    res.send({ result:'failed', rc:4 });
+    res.send({ result: 'failed', rc: 4 });
   }
 });
 
@@ -150,9 +159,12 @@ app.get('/getJSON', function (req, res) {
   console.log('Get JSON request is processing...');
   // extract parameters
   var SurveyID = req.query.SurveyID;
+  if (SurveyID === undefined) SurveyID = '';
   var PanelID = req.query.PanelID;
+  if (PanelID === undefined) PanelID = '';
   var RecipientID = req.query.RecipientID;
-  var SPR = ""+SurveyID+PanelID+RecipientID;
+  if (RecipientID === undefined) RecipientID = '';
+  var SPR = SurveyID+PanelID+RecipientID;
   var name  = req.query.name;                   // Name (of name-value-pair)
   console.log('SPR : %s, name = %s', SPR, name);
 
@@ -164,7 +176,8 @@ app.get('/getJSON', function (req, res) {
   if (db) {
     var col = db.collection('nvpairs');
     // Create a document with request IP and current time of request
-    var value = col.findOne( { SPR:SPR, name:name } ).value;
+    var value = col.findOne( { SPR: SPR, name: name } ).value;
+    console.log('DB value found: %s', value);
     res.send(value);
   } else {
     res.send({ });
