@@ -166,10 +166,14 @@ app.get('/get', function (req, res) {
         var col = db.collection('nvpairs');
         // Create a document with request IP and current time of request
         col.findOne( filter , function(err, doc) {
-            console.log('Raw Doc: %j', doc);
-            console.log('Value %s', doc.value);
-            console.log('JSONValue %j', doc.value);
-            res.send({ value: doc.value, result: 'success', rc: 0 });
+            if (!doc)
+                res.send({ result: 'success', rc: 0 });
+            else {
+                console.log('Raw Doc: %j', doc);
+                console.log('Value %s', doc.value);
+                console.log('JSONValue %j', doc.value);
+                res.send({ value: doc.value, result: 'success', rc: 0 });
+            }
         } );
     } catch (e) {
         console.log('e = %j', e);
@@ -210,10 +214,14 @@ app.get('/getJSON', function (req, res) {
         var col = db.collection('nvpairs');
         // Create a document with request IP and current time of request
         col.findOne( filter , function(err, doc) {
-            console.log('Raw Doc: %j', doc);
-            console.log('Value %s', doc.value);
-            console.log('JSONValue %j', doc.value);
-            res.send(doc.value);
+            if (!doc)
+                res.send({ result: 'success', rc: 0, info: 'not found' });
+            else {
+                console.log('Raw Doc: %j', doc);
+                console.log('Value %s', doc.value);
+                console.log('JSONValue %j', doc.value);
+                res.send(doc.value);
+            }
         } );
     } catch (e) {
         console.log('e = %j', e);
