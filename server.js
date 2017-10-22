@@ -150,13 +150,19 @@ app.get('/get', function (req, res) {
     initDb(function(err){});
   }
   if (db) {
-    var col = db.collection('nvpairs');
-    // Create a document with request IP and current time of request
-    var valueXXX = col.findOne( { SPR: SPR, name: name } );
-    console.log('DB found: %s', valueXXX);
-    var value = col.findOne( { SPR: SPR, name: name } ).value;
-    console.log('DB value found: %s', value);
-    res.send({ value: value, result: 'success', rc: 0 });
+    try {
+        var col = db.collection('nvpairs');
+        // Create a document with request IP and current time of request
+        col.findOne( { SPR: SPR, name: name } , function(err, doc) {
+            console.log('Raw Doc: %j', doc);
+            console.log('Value %s', doc.value);
+            console.log('JSONValue %j', doc.value);
+            res.send({ value: doc.value, result: 'success', rc: 0 });
+        } );
+    } catch (e) {
+        res.send({ result: e, rc: 8 });
+        console.log('e = %s', e);
+    };
   } else {
     res.send({ result: 'failed', rc: 4 });
   }
