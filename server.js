@@ -101,7 +101,7 @@ app.get('/set', function (req, res) {
   var SPR = SurveyID+PanelID+RecipientID;
   var name  = req.query.name;                   // Name (of name-value-pair)
   var value = req.query.value;                  // Value (of name-value-pair)
-  console.log('SPR : %s, name = %s, value = %s', SPR, name, value);
+  console.log('XXXXXXXXXXX    SPR : %s, name = %s, value = %s', SPR, name, value);
 
   // try to initialize the db on every request if it's not already
   // initialized.
@@ -109,16 +109,15 @@ app.get('/set', function (req, res) {
     initDb(function(err){});
   }
   if (db) {
-    var col = db.collection('nvpairs');
-    var valueJSON = {
-            SPR: SPR,
-            name: name,
-            value: value,
-            date: Date.now()
-        };
-    console.log('valueJSON = %s', valueJSON);
-      
     try {
+        var col = db.collection('nvpairs');
+        var valueJSON = {
+                SPR: SPR,
+                name: name,
+                value: value,
+                date: Date.now()
+            };
+        console.log('valueJSON = %j', valueJSON);
         // Create a document with request IP and current time of request
         col.insertOne( valueJSON );
         res.send({ result: 'success', rc: 0 });
